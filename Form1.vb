@@ -1,25 +1,19 @@
 ﻿Public Class Form1
 
-    'SORTEO: Generar una combinación aleatoria. 
-    'Dicha combinación aparecerá ordenada ascendentemente. 
-    'Para realizarla deberemos tener en cuenta:
 
-    'a. Generaremos 6 números para la combinación (entre el 1 y el 49) 
-    'y un número para el reintegro (entre el 0 y el 9), 
-    'teniendo en cuenta que los números de la combinación no pueden ser repetidos, 
-    'a través de una función denominada mostrar_resultados_sorteo. 
-    'b. Para verificar si un número ha salido ya o no utilizaremos una función denominada repetido.
-    'c. Ordenaremos los valores creando una función para ello, llamada ordenar.
     Dim panelResultado, panelPrimitiva, panelCombiWiner, panelCombiUser As Panel
-    Dim ButtonBorrar, buttonManual As Button
-    Dim reintegroBoleto As Integer
+    Dim ButtonBorrar, buttonManual, btnAutomatica As Button
+    Dim reintegroBoleto, reintegroSorteo As Integer
     Dim combiWinner As List(Of Integer)
+    Dim aciertos As Integer
+    Dim reintegroPremiado As Boolean
+    Dim premio As String
     Private Sub mostrar_resultados_sorteo(x As Integer, y As Integer)
         Dim repetidoBoolean As Boolean
-        Dim numPremiado, reintegro As Integer
+        Dim numPremiado As Integer
         combiWinner = New List(Of Integer)
         ' generar reintegro
-        reintegro = GetRandomInt(0, 9)
+        reintegroSorteo = GetRandomInt(0, 9)
         ' Generar combinacion
         Do
             numPremiado = GetRandomInt(1, 49)
@@ -30,7 +24,7 @@
         Loop While combiWinner.Count() < 6
 
         ordenar(combiWinner)
-        mostrar_resultados_pantalla("panelCombiWiner", combiWinner, reintegro, x, y)
+        mostrar_resultados_pantalla("panelCombiWiner", combiWinner, reintegroSorteo, x, y)
     End Sub
 
     Private Sub mostrar_resultados_pantalla(nombre As String, combiWinner As List(Of Integer), reintegro As Integer, x As Integer, y As Integer)
@@ -100,8 +94,8 @@
 
     End Sub
 
-    Private Sub ordenar(combiWinner As List(Of Integer))
-        combiWinner.Sort()
+    Private Sub ordenar(lista As List(Of Integer))
+        lista.Sort()
     End Sub
 
     Private Function repetido(numPremiado As Integer, combiWinner As List(Of Integer)) As Object
@@ -258,15 +252,15 @@
         '
         'ButtonAutomatica
         '
-        btnAux = New Button()
-        btnAux.Location = New Point(xPos + 10, yPos + 10)
-        btnAux.Name = "ButtonAutomatica"
-        btnAux.Size = New Size(100, 40)
-        btnAux.TabIndex = 5
-        btnAux.Text = "Automatica"
-        btnAux.UseVisualStyleBackColor = True
-
-        panelPrimitiva.Controls.Add(btnAux)
+        btnAutomatica = New Button()
+        btnAutomatica.Location = New Point(xPos + 10, yPos + 10)
+        btnAutomatica.Name = "ButtonAutomatica"
+        btnAutomatica.Size = New Size(100, 40)
+        btnAutomatica.TabIndex = 5
+        btnAutomatica.Text = "Automatica"
+        btnAutomatica.UseVisualStyleBackColor = True
+        AddHandler btnAutomatica.Click, AddressOf btnAutomatica_Click
+        panelPrimitiva.Controls.Add(btnAutomatica)
         panelPrimitiva.Controls.Add(lblAux)
 
 
@@ -319,9 +313,35 @@
         mostrar_panel_primitiva()
     End Sub
 
+    Private Sub btnAutomatica_Click()
+        '3) GENERAR LA COMBINACIÓN DEL USUARIO AUTOMÁTICAMENTE:
+        'Vamos a permitir al usuario que genere una combinación automática para jugar, aprovechando el código del sorteo realizado en el primer apartado. Para ello añadiremos un botón “automática”  a nuestro formulario, que al pulsarlo genere una combinación automática para el usuario, realice el sorteo y muestre los resultados.
+        Dim listaAut As List(Of Integer)
+        listaAut = New List(Of Integer)
+        Dim num As Integer
+        For i = 1 To 6
+            num = GetRandomInt(1, 49)
+            listaAut.Add(num)
+        Next
+        ordenar(listaAut)
+        reintegroBoleto = GetRandomInt(0, 9)
 
+        ocultarPaneles()
+        mostrar_resultados_sorteo(200, 300)
+        mostrar_combinacion_usuario(listaAut, 200, 15)
+        aciertos = comprobarPremio(listaAut)
+        reintegroPremiado = comprobarReintegro()
+        ' mejorar presentacion grafica
+        If reintegroPremiado Then
+            premio = " Devolucion del dinero"
+        Else
+            premio = " No has acertado el reintegro"
+        End If
+        MsgBox("numero de aciertos: " & aciertos & premio)
+
+    End Sub
     Private Sub ButtonManual_Click()
-        '      Existirá un botón “manual”, que al pulsarlo actuará de la siguiente forma
+        'Existirá un botón “manual”, que al pulsarlo actuará de la siguiente forma
 
         'a) DATOS INCORRECTOS: mostrará un mensaje de error. 
         'b) DATOS CORRECTOS: (6 valores marcados), mostrará:
@@ -335,19 +355,47 @@
         If Not datos Then
             MessageBox.Show("Selecciona 6 casillas")
         Else
+
             ocultarPaneles()
             mostrar_resultados_sorteo(200, 300)
             mostrar_combinacion_usuario(listaUser, 200, 15)
-            ' comprobarPremio(listaUser)
-
+            aciertos = comprobarPremio(listaUser)
+            reintegroPremiado = comprobarReintegro()
+            ' mejorar presentacion grafica
+            If reintegroPremiado Then
+                premio = " Devolucion del dinero"
+            Else
+                premio = " No has acertado el reintegro"
+            End If
+            MsgBox("numero de aciertos: " & aciertos & premio)
         End If
+
     End Sub
 
-    Private Sub comprobarPremio(lista As List(Of Integer))
-        Throw New NotImplementedException()
-    End Sub
+    Private Function comprobarReintegro() As Boolean
+        If reintegroBoleto = reintegroSorteo Then Return True Else Return False
+
+    End Function
+
+    Private Function comprobarPremio(listaUser As List(Of Integer)) As Integer
+        Dim numPremiados = 0
+        For Each num As Integer In listaUser
+            If combiWinner.Contains(num) Then
+                numPremiados += 1
+            End If
+        Next
+        Return numPremiados
+    End Function
+
 
     Private Sub ocultarPaneles()
+        For Each c As Control In Me.Controls
+            If TypeOf c Is Panel Then
+                c.Hide()
+
+
+            End If
+        Next
         If panelResultado IsNot Nothing Then
             panelResultado.Hide()
         End If
