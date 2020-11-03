@@ -1,0 +1,12 @@
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.vbprojAssemblyReference.cache
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.Form1.resources
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.Resources.resources
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.vbproj.GenerateResource.cache
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.vbproj.CoreCompileInputs.cache
+D:\proyectosVB\LoteriaPrimitiva\bin\Debug\LoteriaPrimitiva.exe.config
+D:\proyectosVB\LoteriaPrimitiva\bin\Debug\LoteriaPrimitiva.exe
+D:\proyectosVB\LoteriaPrimitiva\bin\Debug\LoteriaPrimitiva.pdb
+D:\proyectosVB\LoteriaPrimitiva\bin\Debug\LoteriaPrimitiva.xml
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.exe
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.xml
+D:\proyectosVB\LoteriaPrimitiva\obj\Debug\LoteriaPrimitiva.pdb

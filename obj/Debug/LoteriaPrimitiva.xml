@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+LoteriaPrimitiva
+</name>
+</assembly>
+<members>
+<member name="T:LoteriaPrimitiva.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:LoteriaPrimitiva.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:LoteriaPrimitiva.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="M:LoteriaPrimitiva.Form1.GetRandomInt(System.Int32,System.Int32)">
+ <summary>
+ Generates a random Integer with any (inclusive) minimum or (inclusive) maximum values, with full range of Int32 values.
+ </summary>
+ <param name="inMin">Inclusive Minimum value. Lowest possible return value.</param>
+ <param name="inMax">Inclusive Maximum value. Highest possible return value.</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+</members>
+</doc>
